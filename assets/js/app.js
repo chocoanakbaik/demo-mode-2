@@ -31,3 +31,46 @@ card.querySelector(".demo-ad-action").addEventListener("click",()=>{card.querySe
 layer.appendChild(card);next++}
 delays.forEach(delay=>setTimeout(spawn,delay));
 })();
+
+
+/* ChocoScan educational adware simulation: all interactions stay on this page. */
+(()=>{"use strict";
+if(document.getElementById("cs-aggressive-sim"))return;
+const css=document.createElement("style");
+css.textContent=`
+#cs-aggressive-sim{position:fixed;inset:0;z-index:12000;pointer-events:none;font-family:Arial,sans-serif}
+.cs-sim-card{position:fixed;pointer-events:auto;box-sizing:border-box;width:min(350px,calc(100vw - 22px));background:#fff;border:3px solid #ef4444;color:#171717;box-shadow:0 20px 70px #0009;border-radius:10px;padding:17px;animation:csShakeIn .2s ease-out}
+.cs-sim-card strong{display:block;font-size:15px;line-height:1.3;margin:5px 28px 8px 0}
+.cs-sim-card p{font-size:12px;line-height:1.45;margin:0 0 13px;color:#3d3d3d}
+.cs-sim-card .cs-sim-icon{font-size:28px;line-height:1}
+.cs-sim-card .cs-sim-x{position:absolute;right:6px;top:6px;border:0;background:#fee2e2;color:#991b1b;border-radius:5px;width:29px;height:29px;font-size:22px;cursor:pointer}
+.cs-sim-card .cs-sim-btn{display:block;width:100%;border:0;border-radius:5px;padding:10px;margin-top:7px;background:#dc2626;color:white;font-size:11px;font-weight:900;cursor:pointer}
+.cs-sim-card .cs-sim-btn.alt{background:#facc15;color:#211900}
+.cs-sim-label{font-size:9px;letter-spacing:1px;font-weight:900;color:#991b1b}
+.cs-sim-push{position:fixed;right:12px;top:12px;width:min(310px,calc(100vw - 24px));background:#f8fafc;border:1px solid #94a3b8;border-radius:10px;padding:13px;box-shadow:0 12px 35px #0003;color:#172033;pointer-events:auto}
+.cs-sim-push b{font-size:12px}.cs-sim-push p{font-size:11px;line-height:1.4;margin:7px 0}
+.cs-sim-push button{border:0;padding:7px 9px;margin:3px 4px 0 0;border-radius:5px;cursor:pointer}
+@keyframes csShakeIn{from{opacity:0;transform:scale(.94) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@media(max-width:600px){.cs-sim-card{width:calc(100vw - 18px);padding:13px}.cs-sim-card strong{font-size:14px}.cs-sim-card p{font-size:11px}.cs-sim-push{right:9px;top:9px;width:calc(100vw - 18px)}}
+@media(prefers-reduced-motion:reduce){.cs-sim-card{animation:none}}
+`;
+document.head.appendChild(css);
+const root=document.createElement("div");root.id="cs-aggressive-sim";root.setAttribute("aria-label","Simulasi adware ChocoScan");document.body.appendChild(root);
+let round=0;const spots=[{top:"23%",left:"calc(50% - 175px)"},{top:"36%",right:"4%"},{bottom:"7%",left:"5%"},{top:"8%",left:"5%"}];
+const messages=[
+{title:"PERINGATAN KEAMANAN PALSU",copy:"Simulasi: halaman mencoba membuat pengunjung panik dengan peringatan perangkat.",btn:"SCAN NOW"},
+{title:"IZINKAN NOTIFIKASI?",copy:"Simulasi tampilan permintaan notifikasi. Ini bukan dialog izin browser sungguhan.",btn:"ALLOW"},
+{title:"DOWNLOAD NOW",copy:"Simulasi tombol unduhan yang mendesak. Tidak ada file yang diunduh.",btn:"DOWNLOAD"},
+{title:"SESI AKAN BERAKHIR",copy:"Pesan urgensi contoh yang digunakan untuk mengalihkan perhatian.",btn:"CONTINUE"}
+];
+function spawn(){const data=messages[round%messages.length],pos=spots[round%spots.length];const card=document.createElement("section");card.className="cs-sim-card";card.setAttribute("role","dialog");card.setAttribute("aria-label","Simulasi: "+data.title);Object.assign(card.style,pos);card.style.zIndex=String(12001+round);
+card.innerHTML='<span class="cs-sim-icon" aria-hidden="true">⚠️</span><button type="button" class="cs-sim-x" aria-label="Tutup simulasi">×</button><div class="cs-sim-label">SIMULASI CHOCOSCAN · BUKAN PERINGATAN ASLI</div><strong></strong><p></p><button type="button" class="cs-sim-btn"></button><button type="button" class="cs-sim-btn alt">CONTINUE</button>';
+card.querySelector("strong").textContent=data.title;card.querySelector("p").textContent=data.copy;card.querySelector(".cs-sim-btn").textContent=data.btn;
+const loop=()=>{card.remove();round++;setTimeout(spawn,280)};
+card.querySelector(".cs-sim-x").addEventListener("click",loop);
+card.querySelectorAll(".cs-sim-btn").forEach(btn=>btn.addEventListener("click",()=>{card.querySelector("p").textContent="Interaksi dicatat secara lokal untuk demo. Tidak ada redirect, unduhan, atau pengiriman data.";btn.textContent="SIMULASI AKTIF";btn.disabled=true}));
+root.appendChild(card);round++}
+function push(){const p=document.createElement("aside");p.className="cs-sim-push";p.innerHTML='<b>🔔 Notifikasi contoh</b><p>Halaman demo menampilkan notifikasi tiruan, bukan izin browser asli.</p><button type="button">Izinkan (simulasi)</button><button type="button">Nanti</button>';p.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{p.remove();setTimeout(spawn,200)}));root.appendChild(p);setTimeout(()=>{if(p.isConnected)p.remove()},6500)}
+setTimeout(push,900);setTimeout(spawn,1700);setTimeout(spawn,2900);setTimeout(spawn,4100);
+document.addEventListener("click",function(e){if(e.target.closest("#cs-aggressive-sim"))return;if(round<8&&Math.random()<.28)setTimeout(spawn,100)},true);
+})();
