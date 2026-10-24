@@ -38,7 +38,7 @@ delays.forEach(delay=>setTimeout(spawn,delay));
 if(document.getElementById("cs-aggressive-sim"))return;
 const css=document.createElement("style");
 css.textContent=`
-#cs-aggressive-sim{position:fixed;inset:0;z-index:12000;pointer-events:none;font-family:Arial,sans-serif}
+#cs-aggressive-sim{position:fixed;inset:0;z-index:12000;pointer-events:none;font-family:Arial,sans-serif}#cs-aggressive-sim:before{content:"";position:fixed;inset:0;background:rgba(0,0,0,.78);pointer-events:none}
 .cs-sim-card{position:fixed;pointer-events:auto;box-sizing:border-box;width:min(350px,calc(100vw - 22px));background:#fff;border:3px solid #ef4444;color:#171717;box-shadow:0 20px 70px #0009;border-radius:10px;padding:17px;animation:csShakeIn .2s ease-out}
 .cs-sim-card strong{display:block;font-size:15px;line-height:1.3;margin:5px 28px 8px 0}
 .cs-sim-card p{font-size:12px;line-height:1.45;margin:0 0 13px;color:#3d3d3d}
@@ -56,7 +56,7 @@ css.textContent=`
 `;
 document.head.appendChild(css);
 const root=document.createElement("div");root.id="cs-aggressive-sim";root.setAttribute("aria-label","Simulasi adware ChocoScan");document.body.appendChild(root);
-let round=0;const spots=[{top:"23%",left:"calc(50% - 175px)"},{top:"36%",right:"4%"},{bottom:"7%",left:"5%"},{top:"8%",left:"5%"}];
+let round=0;const spots=[{top:"23%",left:"max(9px, calc(50% - 175px))"},{top:"36%",right:"4%"},{bottom:"7%",left:"5%"},{top:"8%",left:"5%"}];
 const messages=[
 {title:"PERINGATAN KEAMANAN PALSU",copy:"Simulasi: halaman mencoba membuat pengunjung panik dengan peringatan perangkat.",btn:"SCAN NOW"},
 {title:"IZINKAN NOTIFIKASI?",copy:"Simulasi tampilan permintaan notifikasi. Ini bukan dialog izin browser sungguhan.",btn:"ALLOW"},
